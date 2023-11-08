@@ -47,6 +47,16 @@ def parse_args(args, description:str = 'Generic description of tool'):
                         , default=None
                         , help='Source files dir name, default: ' + THIS_PKGSRC_DIR)
 
+    parser.add_argument('--num-nodes', dest='num_nodes'
+                        , metavar='<number>>'
+                        , default=4
+                        , help='Number of nodes in Ray Cluster')
+
+    parser.add_argument('--num-iterations', dest='num_iterations'
+                        , metavar='<number>'
+                        , default=10
+                        , help='Number of iterations to run ...')
+
     # ======================================================================
     # Debugging support
     parser.add_argument('--verbose', dest='verbose'
