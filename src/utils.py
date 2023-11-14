@@ -57,6 +57,12 @@ def parse_args(args, description:str = 'Generic description of tool'):
                         , default=10
                         , help='Number of iterations to run ...')
 
+    parser.add_argument('--head-node-addr', dest='head_node_addr'
+                        , metavar='<string>'
+                        , default='10.212.239.203:6379'
+                        , help="Head node's IP-address:port-number."
+                                + " (Only needed for some cluster-related sample programs.)")
+
     # ======================================================================
     # Debugging support
     parser.add_argument('--verbose', dest='verbose'
