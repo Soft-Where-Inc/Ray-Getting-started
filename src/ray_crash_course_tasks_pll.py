@@ -15,25 +15,44 @@ To start a cluster manually:
     # Cut-n-paste below, the address reported by above command.
     $ ray start --address='10.212.239.203:6379' # Repeat n-times
 
+On Mac/OSX, start both head-node and worker nodes using:
+    RAY_ENABLE_WINDOWS_OR_OSX_CLUSTER=1
+
+  - Monitor Ray nodes
+
 # pylint: disable=line-too-long
+  $ RAY_ENABLE_WINDOWS_OR_OSX_CLUSTER=1 ray start --head --port=6379 --object-manager-port=8076 --include-dashboard=True
+
+  $ RAY_ENABLE_WINDOWS_OR_OSX_CLUSTER=1 ray start --address='192.168.7.211:6379'
+
+  # Will return descriptive information about the nodes
+  $ ray list nodes
+
 Refs: https://github.com/anyscale/academy/blob/ebd151134127168162c1175ed1c7da979e475a83/ray-crash-course/01-Ray-Tasks.ipynb
 # pylint: enable=line-too-long
 """
 
 import sys
 import ray
-from utils import parse_args, fnl # pylint: disable=unused-import
+from ray.util.state import list_nodes, get_node
+from utils import parse_args, fnl
 
 ###############################################################################
-def regular_function():
+def regular_function() -> str:
     """Return function's code-location"""
     return fnl()
 
 # A Ray remote function.
 @ray.remote
-def remote_function():
+def remote_function() -> str:
     """Return constant value"""
-    return 1
+
+    # Will return a list describing nodes
+    # return list_nodes()
+
+    # Get info about specific node, given its node-ID
+    return get_node('9aa6d056371a91c133fdce8d4a20b458bbfac6eff733872478f328a0')
+    # return 4
 
 ###############################################################################
 def main():
@@ -62,6 +81,9 @@ def do_main(args) -> bool:
     if not dry_run:
         print('Return from regular_function:' + regular_function())
         ray.init()
+
+        print('\nRay list_nodes: ', list_nodes())
+        print('\n')
 
         # Let's invoke the remote regular function.
         remf_rv = ray.get(remote_function.remote())
