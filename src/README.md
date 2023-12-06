@@ -18,3 +18,5 @@ above, we need to install the following packages
 - pip install grpc
 - pip install grpcio
 
+# Needed to run `ray list nodes` and other dashboard-related commands
+- pip install async_timeout
