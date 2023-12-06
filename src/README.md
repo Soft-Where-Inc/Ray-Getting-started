@@ -14,6 +14,9 @@ above, we need to install the following packages
 - python3.11 -m pip install --upgrade pip
 - pip install -U "ray[data]"
 
+  # Need this to run dashboard related interfaces
+- pip install -U "ray[default]"
+
 # Needed by ray_data_scalable_datasets_for_ml.py, ray_data_load.py ... others, too
 - pip install grpc
 - pip install grpcio

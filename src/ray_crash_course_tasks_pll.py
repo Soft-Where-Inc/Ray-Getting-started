@@ -67,11 +67,12 @@ def do_main(args) -> bool:
     Main driver to implement argument processing.
     """
     # Parsed args and extract cmdline flags into local variables
-    parsed_args = parse_args(args, 'Ray - Remote execution of a method')
-    verbose     = parsed_args.verbose
-    dry_run     = parsed_args.dry_run
-    do_debug    = parsed_args.debug_script
-    dump_flag   = parsed_args.dump_flags
+    parsed_args    = parse_args(args, 'Ray - Remote execution of a method')
+    head_node_addr = parsed_args.head_node_addr
+    verbose        = parsed_args.verbose
+    dry_run        = parsed_args.dry_run
+    do_debug       = parsed_args.debug_script
+    dump_flag      = parsed_args.dump_flags
 
     # Dump args, also shuts-up pylint ...
     if dump_flag:
@@ -80,7 +81,7 @@ def do_main(args) -> bool:
 
     if not dry_run:
         print('Return from regular_function:' + regular_function())
-        ray.init()
+        ray.init(address=head_node_addr)
 
         print('\nRay list_nodes: ', list_nodes())
         print('\n')
