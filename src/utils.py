@@ -42,10 +42,10 @@ def parse_args(args, description:str = 'Generic description of tool'):
 ''')
 
     # Define arguments supported by this script
-    parser.add_argument('--fixme-source-dir', dest='src_dirname'
-                        , metavar='<source-files-dir>'
-                        , default=None
-                        , help='Source files dir name, default: ' + THIS_PKGSRC_DIR)
+    parser.add_argument('--head-node-addr', dest='head_node_addr'
+                        , metavar='<string>'
+                        , default='10.212.239.203:6379'
+                        , help="Head node's IP-address")
 
     parser.add_argument('--num-nodes', dest='num_nodes'
                         , metavar='<number>>'

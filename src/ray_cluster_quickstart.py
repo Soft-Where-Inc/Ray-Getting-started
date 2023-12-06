@@ -15,6 +15,9 @@ To start a cluster manually:
 
     # Cut-n-paste below, the address reported by above command.
     $ ray start --address='10.212.239.203:6379' # Repeat n-times
+
+On Mac/OSX, start both head-node and worker nodes using:
+    RAY_ENABLE_WINDOWS_OR_OSX_CLUSTER=1
 """
 
 import sys
@@ -60,13 +63,14 @@ def do_main(args) -> bool:
     Main driver to implement argument processing.
     """
     # Parsed args and extract cmdline flags into local variables
-    parsed_args = parse_args(args, 'Ray Cluster - Quick start tutorial')
-    num_nodes   = parsed_args.num_nodes
-    num_iters   = parsed_args.num_iterations
-    verbose     = parsed_args.verbose
-    dry_run     = parsed_args.dry_run
-    do_debug    = parsed_args.debug_script
-    dump_flag   = parsed_args.dump_flags
+    parsed_args    = parse_args(args, 'Ray Cluster - Quick start tutorial')
+    num_nodes      = parsed_args.num_nodes
+    head_node_addr = parsed_args.head_node_addr
+    num_iters      = parsed_args.num_iterations
+    verbose        = parsed_args.verbose
+    dry_run        = parsed_args.dry_run
+    do_debug       = parsed_args.debug_script
+    dump_flag      = parsed_args.dump_flags
 
     # Dump args, also shuts-up pylint ...
     if dump_flag:
@@ -75,7 +79,6 @@ def do_main(args) -> bool:
 
     # Either one seems to work ok to connect to the cluster.
     # head_node_addr='localhost:6379'
-    head_node_addr='10.212.239.203:6379'
     if verbose:
         print(f"Initialize Ray Cluster with head node at '{head_node_addr}'")
 
@@ -83,7 +86,9 @@ def do_main(args) -> bool:
         ray.init(address=head_node_addr)
         wait_for_nodes(num_nodes)
 
-    print(platform.node())
+    print('Ray Cluster Info: ', ray.cluster_resources())
+
+    print('Platform Node name: ', platform.node())
     # print(get_host_name.remote(platform.node()))
     try:
         print(get_host_name('abc'))
